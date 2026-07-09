@@ -13,6 +13,7 @@ export const BookReviewForm: React.FC<BookReviewFormProps> = ({ review, onSave, 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
+  const [bookUrl, setBookUrl] = useState('');
   const [rating, setRating] = useState(5);
   const [hoverRating, setHoverRating] = useState(0);
   const [dateFinished, setDateFinished] = useState(() => {
@@ -29,6 +30,7 @@ export const BookReviewForm: React.FC<BookReviewFormProps> = ({ review, onSave, 
       setTitle(review.title);
       setAuthor(review.author);
       setCoverUrl(review.coverUrl || '');
+      setBookUrl(review.bookUrl || '');
       setRating(review.rating);
       setDateFinished(review.dateFinished);
       setReviewContent(review.reviewContent);
@@ -38,6 +40,7 @@ export const BookReviewForm: React.FC<BookReviewFormProps> = ({ review, onSave, 
       setTitle('');
       setAuthor('');
       setCoverUrl('');
+      setBookUrl('');
       setRating(5);
       setDateFinished(new Date().toISOString().split('T')[0]);
       setReviewContent('');
@@ -67,6 +70,7 @@ export const BookReviewForm: React.FC<BookReviewFormProps> = ({ review, onSave, 
       title: title.trim(),
       author: author.trim(),
       coverUrl: coverUrl.trim() || undefined,
+      bookUrl: bookUrl.trim() || undefined,
       rating,
       reviewContent: reviewContent.trim(),
       dateFinished,
@@ -171,18 +175,59 @@ export const BookReviewForm: React.FC<BookReviewFormProps> = ({ review, onSave, 
                 />
               </div>
 
-              {/* Row 3: Cover Image URL */}
+              {/* Row 3: Cover Image Upload */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-typewriter font-bold text-vintage-sepia tracking-wide flex items-center gap-1">
-                  <Image className="w-3.5 h-3.5 text-vintage-sepia" /> Đường dẫn ảnh bìa (tùy chọn):
+                  <Image className="w-3.5 h-3.5 text-vintage-sepia" /> Tải ảnh bìa lên (tùy chọn):
+                </label>
+                <div className="flex items-center gap-3 select-none">
+                  <button
+                    type="button"
+                    onClick={() => document.getElementById('book-cover-file-input')?.click()}
+                    className="px-4 py-2 bg-stone-200/80 hover:bg-stone-300/80 border border-stone-300 text-vintage-dark text-xs font-typewriter font-bold rounded transition-all cursor-pointer"
+                  >
+                    {coverUrl ? 'Chọn ảnh khác...' : 'Chọn ảnh từ máy...'}
+                  </button>
+                  <input
+                    type="file"
+                    id="book-cover-file-input"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          setCoverUrl(event.target?.result as string);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="hidden"
+                  />
+                  {coverUrl && (
+                    <button
+                      type="button"
+                      onClick={() => setCoverUrl('')}
+                      className="px-3 py-2 bg-red-100 hover:bg-red-200 border border-red-200 text-red-700 text-xs font-typewriter font-bold rounded transition-all cursor-pointer"
+                    >
+                      Xóa ảnh bìa
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Row 3.5: Book URL link */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-typewriter font-bold text-vintage-sepia tracking-wide flex items-center gap-1">
+                  🔗 Liên kết sách (tùy chọn):
                 </label>
                 <input
                   type="text"
-                  placeholder="Nhập liên kết ảnh bìa (URL)..."
-                  value={coverUrl}
-                  onChange={(e) => setCoverUrl(e.target.value)}
-                  className="px-3 py-1.5 rounded border border-stone-300/70 bg-stone-100/40 text-stone-700 focus:outline-none focus:border-vintage-sepia text-xs font-mono"
-                  id="book-cover-input"
+                  placeholder="Nhập liên kết mua sách hoặc thông tin sách (URL)..."
+                  value={bookUrl}
+                  onChange={(e) => setBookUrl(e.target.value)}
+                  className="px-3 py-2 rounded border border-stone-300/70 bg-stone-100/40 text-stone-700 focus:outline-none focus:border-vintage-sepia text-xs font-mono"
+                  id="book-url-input"
                 />
               </div>
 

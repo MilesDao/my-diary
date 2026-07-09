@@ -45,6 +45,7 @@ export interface BookReview {
   reviewContent: string; // The review text
   dateFinished: string;  // Date finished (YYYY-MM-DD)
   tags: string[];      // Book tags / genres
+  bookUrl?: string;    // Optional book info/purchase link
   createdAt: string;
   updatedAt: string;
 }

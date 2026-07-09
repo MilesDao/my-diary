@@ -315,137 +315,150 @@ export const BookReviewList: React.FC<BookReviewListProps> = ({
         )}
       </div>
 
-      {/* 5. IMMERSIVE DOUBLE-PAGE BOOK READING MODAL */}
+      {/* 5. IMMERSIVE BOOK READING MODAL (Spacious Single Page Style) */}
       <AnimatePresence>
         {viewingReview && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/75 backdrop-blur-sm select-none">
             {/* Modal backdrop clicks close */}
             <div className="absolute inset-0" onClick={() => setViewingReview(null)} />
 
-            {/* Immersive Opened Book View */}
+            {/* Immersive Book representation */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
               transition={{ type: 'spring', damping: 25, stiffness: 180 }}
-              className="relative w-full max-w-4xl bg-[#4a392c] p-3 md:p-4 rounded-xl shadow-2xl border border-amber-950/60 z-10 select-text overflow-hidden"
+              className="relative w-full max-w-3xl bg-[#5c4a3c] p-3 md:p-4 rounded-xl shadow-2xl border border-amber-950/40 z-10 select-text overflow-hidden"
             >
-              {/* Outer leather cover overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/50 via-transparent to-white/10 pointer-events-none" />
+              {/* Wooden or leather cover border */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-amber-950/40 via-transparent to-white/10 pointer-events-none rounded-xl" />
 
-              {/* The Inner Double-Page Paper */}
-              <div className="relative grid grid-cols-1 md:grid-cols-12 min-h-[480px] max-h-[85vh] text-vintage-dark rounded overflow-hidden">
-                {/* Paper background filter */}
-                <div
-                  className="absolute inset-0 bg-vintage-cream border border-stone-400/50 pointer-events-none"
-                  style={{ filter: 'url(#torn-paper)' }}
-                />
+              {/* Close Button - Placed fixed on the cover */}
+              <button
+                onClick={() => setViewingReview(null)}
+                className="absolute top-5 right-5 z-40 p-2 bg-stone-200 hover:bg-stone-300 text-stone-700 border border-stone-300 rounded-full transition-colors cursor-pointer select-none"
+                id="btn-close-book-modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
 
-                {/* Vertical Notebook Middle crease visual for opened book */}
-                <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[4px] -translate-x-1/2 bg-gradient-to-r from-black/20 via-black/35 to-black/20 pointer-events-none z-20" />
-                <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 bg-amber-950/20 pointer-events-none z-20" />
+              {/* Scrollable Container Wrapper */}
+              <div className="overflow-y-auto max-h-[85vh] rounded-lg">
+                {/* The Inner Lined Paper (grows naturally) */}
+                <div className="relative p-6 md:p-8 min-h-[480px] flex flex-col gap-6 text-vintage-dark rounded">
+                  {/* Background layer with filter */}
+                  <div
+                    className="absolute inset-0 bg-vintage-cream shadow-inner border border-stone-300 pointer-events-none"
+                    style={{ filter: 'url(#torn-paper)' }}
+                  />
 
-                {/* Top buttons overlay (floating above pages) */}
-                <button
-                  onClick={() => setViewingReview(null)}
-                  className="absolute top-3 right-3 z-30 p-1.5 bg-stone-200 hover:bg-stone-300 text-stone-700 border border-stone-300 rounded-full transition-colors cursor-pointer select-none"
-                  id="btn-close-book-modal"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
+                  <div className="relative z-10 flex flex-col gap-6 w-full h-full">
+                    {/* Vertical Margin Red line */}
+                    <div className="absolute left-6 md:left-8 top-0 bottom-0 w-[1.5px] bg-red-400/30 pointer-events-none" />
 
-                {/* LEFT PAGE (Book Meta details) - Span 5 of 12 */}
-                <div className="relative md:col-span-5 flex flex-col justify-start items-center p-6 md:p-8 md:border-r border-stone-300/40 select-none pb-4 md:pb-8 text-center gap-4">
-                  {/* Spine shadow for left page edge */}
-                  <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-stone-400/20 to-transparent pointer-events-none" />
+                    {/* Header info - Grid layout with cover on the left and titles/meta on the right */}
+                    <div className="pl-8 md:pl-12 flex flex-col sm:flex-row gap-6 pb-6 border-b border-stone-300/50 select-none">
+                      {/* Book cover */}
+                      <div className="w-24 md:w-28 shrink-0 shadow-md rounded border border-stone-300/40">
+                        <BookCover title={viewingReview.title} author={viewingReview.author} coverUrl={viewingReview.coverUrl} />
+                      </div>
 
-                  {/* Date finish stamp style */}
-                  <div className="absolute top-4 left-4 text-[10px] font-mono text-vintage-sepia/70 flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    <span>Đọc xong: {formatDate(viewingReview.dateFinished)}</span>
-                  </div>
+                      {/* Book Metadata */}
+                      <div className="flex flex-col justify-between gap-3 text-left">
+                        <div>
+                          {/* Title */}
+                          <h3 className="text-xl md:text-2xl font-bold font-serif text-vintage-dark tracking-wide leading-tight">
+                            {viewingReview.title}
+                          </h3>
+                          {/* Author */}
+                          <p className="text-xs text-stone-500 font-typewriter font-bold uppercase tracking-wider mt-1 flex items-center gap-1">
+                            <User className="w-3.5 h-3.5 text-vintage-sepia/80" />
+                            <span>{viewingReview.author}</span>
+                          </p>
+                        </div>
 
-                  {/* Book cover projection */}
-                  <div className="w-32 md:w-40 shadow-xl rounded border border-stone-300/50 mt-4">
-                    <BookCover title={viewingReview.title} author={viewingReview.author} coverUrl={viewingReview.coverUrl} />
-                  </div>
+                        {/* Stars */}
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-typewriter font-bold text-stone-500 uppercase tracking-wider">Đánh giá:</span>
+                          {renderStars(viewingReview.rating, 'w-4 h-4')}
+                        </div>
 
-                  {/* Titles */}
-                  <div className="flex flex-col gap-1 font-serif mt-2 px-1 max-w-full">
-                    <h3 className="text-xl md:text-2xl font-bold text-vintage-dark tracking-wide leading-tight">
-                      {viewingReview.title}
-                    </h3>
-                    <div className="flex items-center justify-center gap-1 text-xs text-stone-500 font-typewriter font-bold uppercase tracking-wider">
-                      <User className="w-3 h-3 text-vintage-sepia/80" />
-                      <span>{viewingReview.author}</span>
+                        {/* Date read */}
+                        <div className="text-xs font-mono text-vintage-sepia/80 flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5" />
+                          <span>Đọc xong ngày: {formatDate(viewingReview.dateFinished)}</span>
+                        </div>
+
+                        {/* Book link */}
+                        {viewingReview.bookUrl && (
+                          <div className="text-xs font-typewriter flex items-center gap-1 mt-0.5">
+                            <span>🔗 Liên kết:</span>
+                            <a
+                              href={viewingReview.bookUrl.startsWith('http') ? viewingReview.bookUrl : `https://${viewingReview.bookUrl}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-amber-800 hover:text-amber-950 font-bold hover:underline"
+                            >
+                              Xem trang sách
+                            </a>
+                          </div>
+                        )}
+
+                        {/* Tags */}
+                        {viewingReview.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {viewingReview.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="px-2 py-0.5 bg-stone-200/60 text-stone-600 border border-stone-300/30 rounded font-mono text-[10px]"
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Rating display */}
-                  <div className="flex flex-col items-center gap-1.5 border-t border-stone-300/30 w-full pt-3">
-                    <span className="text-[10px] font-typewriter font-bold text-stone-500 uppercase tracking-widest">Đánh giá</span>
-                    {renderStars(viewingReview.rating, 'w-5 h-5')}
-                  </div>
-
-                  {/* Tags list */}
-                  {viewingReview.tags.length > 0 && (
-                    <div className="flex flex-wrap justify-center gap-1 mt-1 border-t border-stone-300/30 w-full pt-3">
-                      {viewingReview.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-0.5 bg-stone-200/60 text-stone-600 border border-stone-300/30 rounded font-mono text-[10px]"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Actions overlay for the book review */}
-                  <div className="flex gap-2 mt-auto select-none pt-4 border-t border-stone-300/30 w-full justify-center">
-                    <button
-                      onClick={() => {
-                        onEdit(viewingReview);
-                        setViewingReview(null);
-                      }}
-                      className="flex items-center gap-1 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-blue-800 rounded border border-stone-200 text-xs font-typewriter cursor-pointer transition-all"
-                      id={`btn-book-edit-${viewingReview.id}`}
-                    >
-                      <Edit2 className="w-3 h-3" />
-                      <span>Sửa bài</span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        if (confirm('Bạn có chắc chắn muốn xóa bài review sách này?')) {
-                          onDelete(viewingReview.id);
-                          setViewingReview(null);
-                        }
-                      }}
-                      className="flex items-center gap-1 px-3 py-1.5 bg-stone-100 hover:bg-red-50 text-red-700 rounded border border-stone-200 hover:border-red-200 text-xs font-typewriter cursor-pointer transition-all"
-                      id={`btn-book-delete-${viewingReview.id}`}
-                    >
-                      <Trash2 className="w-3 h-3" />
-                      <span>Xóa</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* RIGHT PAGE (Review Content) - Span 7 of 12 */}
-                <div className="relative md:col-span-7 flex flex-col p-6 md:p-8 md:pl-10 overflow-y-auto max-h-[50vh] md:max-h-full">
-                  {/* Spine shadow for right page edge */}
-                  <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black/5 to-transparent pointer-events-none" />
-
-                  {/* Red notebook margin line on left of right page */}
-                  <div className="absolute left-6 md:left-8 top-0 bottom-0 w-[1px] bg-red-400/25 pointer-events-none" />
-
-                  {/* Lined notebook review text */}
-                  <div className="pl-6 md:pl-8 relative flex-1 notebook-lines font-mono text-stone-800 text-sm md:text-base leading-[1.8rem] whitespace-pre-wrap py-2">
-                    <div className="flex items-center gap-1.5 text-vintage-sepia text-xs font-typewriter font-bold mb-3 border-b border-stone-300/40 pb-1 uppercase tracking-wider select-none">
+                    {/* Lined notebook review header - OUTSIDE of the notebook-lines container */}
+                    <div className="pl-8 md:pl-12 flex items-center gap-1.5 text-vintage-sepia text-xs font-typewriter font-bold select-none border-b border-stone-300/40 pb-1 uppercase tracking-wider">
                       <BookOpen className="w-3.5 h-3.5" />
-                      <span>Suy ngẫm & Review</span>
+                      <span>Cảm nhận & Review sách</span>
                     </div>
-                    {viewingReview.reviewContent}
+
+                    {/* Main Review Content on Lined Paper */}
+                    <div className="pl-8 md:pl-12 relative flex-1 notebook-lines font-mono text-stone-800 text-sm md:text-base leading-[1.8rem] whitespace-pre-wrap py-2">
+                      {viewingReview.reviewContent}
+                    </div>
+
+                    {/* Footer actions inside the modal */}
+                    <div className="pl-8 md:pl-12 flex gap-2 justify-end select-none pt-4 border-t border-stone-300/30 w-full mt-auto">
+                      <button
+                        onClick={() => {
+                          onEdit(viewingReview);
+                          setViewingReview(null);
+                        }}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-stone-100 hover:bg-stone-200 text-blue-800 rounded border border-stone-200 text-xs font-typewriter font-bold cursor-pointer transition-all animate-none"
+                        id={`btn-book-edit-${viewingReview.id}`}
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                        <span>Sửa bài viết</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          if (confirm('Bạn có chắc chắn muốn xóa bài review sách này?')) {
+                            onDelete(viewingReview.id);
+                            setViewingReview(null);
+                          }
+                        }}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-stone-100 hover:bg-red-50 text-red-700 rounded border border-stone-200 hover:border-red-200 text-xs font-typewriter font-bold cursor-pointer transition-all animate-none"
+                        id={`btn-book-delete-${viewingReview.id}`}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Xóa bài</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

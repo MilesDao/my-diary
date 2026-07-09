@@ -353,71 +353,74 @@ export const DiaryList: React.FC<DiaryListProps> = ({
               className="relative w-full max-w-2xl bg-[#5c4a3c] p-3 md:p-4 rounded-xl shadow-2xl border border-amber-950/40 z-10 select-text overflow-hidden"
             >
               {/* Wooden or leather cover border */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-amber-950/40 via-transparent to-white/10 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-amber-950/40 via-transparent to-white/10 pointer-events-none rounded-xl" />
 
-              {/* The Inner Lined Paper */}
-              <div className="relative p-6 md:p-10 min-h-[480px] max-h-[85vh] overflow-y-auto flex flex-col gap-4 text-vintage-dark rounded">
-                {/* Background layer with filter */}
-                <div
-                  className="absolute inset-0 bg-vintage-cream shadow-inner border border-stone-300 pointer-events-none"
-                  style={{ filter: 'url(#torn-paper)' }}
-                />
+              {/* Close Button - Placed fixed on the cover */}
+              <button
+                onClick={() => setViewingEntry(null)}
+                className="absolute top-5 right-5 z-40 p-2 bg-stone-200 hover:bg-stone-300 text-stone-700 border border-stone-300 rounded-full transition-colors cursor-pointer select-none"
+                id="btn-close-view-modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
 
-                <div className="relative z-10 flex flex-col gap-4 w-full h-full">
-                  {/* Close Button */}
-                  <button
-                    onClick={() => setViewingEntry(null)}
-                    className="absolute top-0 right-0 z-20 p-2 bg-stone-200 hover:bg-stone-300 text-stone-700 border border-stone-300 rounded-full transition-colors cursor-pointer select-none"
-                    id="btn-close-view-modal"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+              {/* Scrollable Container Wrapper */}
+              <div className="overflow-y-auto max-h-[85vh] rounded-lg">
+                {/* The Inner Lined Paper (grows naturally) */}
+                <div className="relative p-6 md:p-10 min-h-[480px] flex flex-col gap-4 text-vintage-dark rounded">
+                  {/* Background layer with filter */}
+                  <div
+                    className="absolute inset-0 bg-vintage-cream shadow-inner border border-stone-300 pointer-events-none"
+                    style={{ filter: 'url(#torn-paper)' }}
+                  />
 
-                  {/* Vertical Margin Red line */}
-                  <div className="absolute left-8 md:left-14 top-0 bottom-0 w-[1.5px] bg-red-400/30 pointer-events-none" />
+                  <div className="relative z-10 flex flex-col gap-4 w-full h-full">
+                    {/* Vertical Margin Red line */}
+                    <div className="absolute left-8 md:left-14 top-0 bottom-0 w-[1.5px] bg-red-400/30 pointer-events-none" />
 
-                  {/* Header info */}
-                  <div className="pl-6 md:pl-10 flex flex-col gap-3 select-none pb-4 border-b border-stone-300/50">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-typewriter">
-                      {/* Date */}
-                      <div className="flex items-center gap-1 text-vintage-sepia font-bold">
-                        <Calendar className="w-4 h-4" />
-                        <span>{formatDate(viewingEntry.date)}</span>
+                    {/* Header info */}
+                    <div className="pl-6 md:pl-10 flex flex-col gap-3 select-none pb-4 border-b border-stone-300/50">
+                      <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-typewriter">
+                        {/* Date */}
+                        <div className="flex items-center gap-1 text-vintage-sepia font-bold">
+                          <Calendar className="w-4 h-4" />
+                          <span>{formatDate(viewingEntry.date)}</span>
+                        </div>
+
+                        {/* Mood Badge */}
+                        <div className="flex items-center gap-1.5 mr-8 md:mr-10">
+                          <span className="text-vintage-sepia font-bold">Cảm xúc:</span>
+                          <span className={`px-2.5 py-0.5 rounded-full font-serif font-bold text-xs border ${getMoodConfig(viewingEntry.mood).color} ${getMoodConfig(viewingEntry.mood).border}`}>
+                            {getMoodConfig(viewingEntry.mood).emoji} {getMoodConfig(viewingEntry.mood).label}
+                          </span>
+                        </div>
                       </div>
 
-                      {/* Mood Badge */}
-                      <div className="flex items-center gap-1.5 mr-8 md:mr-10">
-                        <span className="text-vintage-sepia font-bold">Cảm xúc:</span>
-                        <span className={`px-2.5 py-0.5 rounded-full font-serif font-bold text-xs border ${getMoodConfig(viewingEntry.mood).color} ${getMoodConfig(viewingEntry.mood).border}`}>
-                          {getMoodConfig(viewingEntry.mood).emoji} {getMoodConfig(viewingEntry.mood).label}
-                        </span>
+                      {/* Title */}
+                      <h3 className="text-2xl font-bold font-serif text-vintage-dark tracking-wide pt-2">
+                        {viewingEntry.title}
+                      </h3>
+                    </div>
+
+                    {/* Main Text Content on Lined Notebook */}
+                    <div className="pl-6 md:pl-10 relative flex-1 notebook-lines font-mono text-stone-800 text-base leading-[1.8rem] whitespace-pre-wrap py-2">
+                      {viewingEntry.content}
+                    </div>
+
+                    {/* Footer tags and decorations */}
+                    {viewingEntry.tags.length > 0 && (
+                      <div className="pl-6 md:pl-10 mt-6 pt-4 border-t border-stone-300/40 flex flex-wrap gap-1.5 select-none">
+                        {viewingEntry.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2 py-0.5 bg-stone-200/60 rounded text-stone-500 font-mono text-xs"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
                       </div>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-2xl font-bold font-serif text-vintage-dark tracking-wide pt-2">
-                      {viewingEntry.title}
-                    </h3>
+                    )}
                   </div>
-
-                  {/* Main Text Content on Lined Notebook */}
-                  <div className="pl-6 md:pl-10 relative flex-1 notebook-lines font-mono text-stone-800 text-base leading-[1.8rem] whitespace-pre-wrap py-2">
-                    {viewingEntry.content}
-                  </div>
-
-                  {/* Footer tags and decorations */}
-                  {viewingEntry.tags.length > 0 && (
-                    <div className="pl-6 md:pl-10 mt-6 pt-4 border-t border-stone-300/40 flex flex-wrap gap-1.5 select-none">
-                      {viewingEntry.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-0.5 bg-stone-200/60 rounded text-stone-500 font-mono text-xs"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
             </motion.div>

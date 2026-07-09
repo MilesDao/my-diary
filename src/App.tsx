@@ -52,6 +52,7 @@ const DEFAULT_REVIEWS: BookReview[] = [
     reviewContent: 'Một cuốn sách tuyệt vời về việc theo đuổi ước mơ và lắng nghe tiếng gọi từ trái tim. Câu chuyện kể về hành trình của Santiago đã truyền cảm hứng mạnh mẽ cho tôi. \n\n"Khi bạn khao khát một điều gì đó, cả vũ trụ sẽ hợp lực để giúp bạn đạt được điều đó." Đây là câu nói đắt giá nhất của tác phẩm.',
     dateFinished: '2026-07-05',
     tags: ['triết_lý', 'truyền_cảm_hứng', 'kinh_điển'],
+    bookUrl: 'https://vi.wikipedia.org/wiki/Nh%C3%A0_gi%E1%BA%A3_kim_(ti%E1%BB%83u_thuy%E1%BA%BFt)',
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
     updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
   },
@@ -64,6 +65,7 @@ const DEFAULT_REVIEWS: BookReview[] = [
     reviewContent: 'Cuốn sách tuy ngắn nhưng chứa đựng những bài học sâu sắc về tình bạn, tình yêu và những giá trị thực sự trong cuộc sống mà người lớn thường lãng quên. \n\nHình ảnh hoàng tử bé và bông hồng của cậu gợi lên trong tôi sự hoài niệm và trân trọng những điều giản đơn xung quanh mình.',
     dateFinished: '2026-07-08',
     tags: ['thiếu_nhi', 'triết_lý', 'hoài_niệm'],
+    bookUrl: 'https://vi.wikipedia.org/wiki/Ho%C3%A0ng_t%E1%BB%AD_b%C3%A9',
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
   }
@@ -416,22 +418,20 @@ export default function App() {
             onClick={() => {
               setActiveTab('diary');
             }}
-            className={`relative px-6 py-2 cursor-pointer transition-all duration-200 ${
-              activeTab === 'diary'
-                ? 'text-vintage-dark font-bold scale-105'
-                : 'text-stone-500 hover:text-stone-700 opacity-80'
-            }`}
+            className={`relative px-6 py-2 cursor-pointer transition-all duration-200 ${activeTab === 'diary'
+              ? 'text-vintage-dark font-bold scale-105'
+              : 'text-stone-500 hover:text-stone-700 opacity-80'
+              }`}
           >
             <div
-              className={`absolute inset-0 border pointer-events-none transition-all ${
-                activeTab === 'diary'
-                  ? 'bg-vintage-cream border-stone-300 shadow-md'
-                  : 'bg-stone-300/40 border-stone-300/20'
-              }`}
+              className={`absolute inset-0 border pointer-events-none transition-all ${activeTab === 'diary'
+                ? 'bg-vintage-cream border-stone-300 shadow-md'
+                : 'bg-stone-300/40 border-stone-300/20'
+                }`}
               style={{ filter: 'url(#torn-paper-subtle)' }}
             />
             <span className="relative z-10 flex items-center gap-1.5 text-sm md:text-base">
-              ✍️ Nhật ký Ooo
+              Nhật ký
             </span>
           </button>
 
@@ -439,22 +439,20 @@ export default function App() {
             onClick={() => {
               setActiveTab('bookshelf');
             }}
-            className={`relative px-6 py-2 cursor-pointer transition-all duration-200 ${
-              activeTab === 'bookshelf'
-                ? 'text-vintage-dark font-bold scale-105'
-                : 'text-stone-500 hover:text-stone-700 opacity-80'
-            }`}
+            className={`relative px-6 py-2 cursor-pointer transition-all duration-200 ${activeTab === 'bookshelf'
+              ? 'text-vintage-dark font-bold scale-105'
+              : 'text-stone-500 hover:text-stone-700 opacity-80'
+              }`}
           >
             <div
-              className={`absolute inset-0 border pointer-events-none transition-all ${
-                activeTab === 'bookshelf'
-                  ? 'bg-vintage-cream border-stone-300 shadow-md'
-                  : 'bg-stone-300/40 border-stone-300/20'
-              }`}
+              className={`absolute inset-0 border pointer-events-none transition-all ${activeTab === 'bookshelf'
+                ? 'bg-vintage-cream border-stone-300 shadow-md'
+                : 'bg-stone-300/40 border-stone-300/20'
+                }`}
               style={{ filter: 'url(#torn-paper-subtle)' }}
             />
             <span className="relative z-10 flex items-center gap-1.5 text-sm md:text-base">
-              📚 Kệ sách Ooo
+              Review sách
             </span>
           </button>
         </div>
