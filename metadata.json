@@ -1,0 +1,6 @@
+{
+  "name": "My Diary",
+  "description": "Ứng dụng viết nhật ký cá nhân phong cách Scrapbook cổ điển với lưu trữ bảo mật cục bộ, lọc cảm xúc và sao lưu an toàn.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
