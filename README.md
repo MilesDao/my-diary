@@ -1,6 +1,6 @@
-# 📖 Hành Trình Ooo - Nhật Ký & Kệ Sách Cá Nhân (Jake & Finn Style)
+# 📖 Nhật Ký & Kệ Sách Cá Nhân (Jake & Finn Style)
 
-Chào mừng bạn đến với **Hành Trình Ooo** (My Diary & Bookshelf) — một ứng dụng lưu bút ký cá nhân kết hợp kệ sách review tiện dụng, được thiết kế theo phong cách cắt dán cổ điển (vintage scrapbook) lấy cảm hứng từ thế giới Adventure Time (Vương quốc Ooo).
+Chào mừng bạn đến với **Hành Trình Ooo** (My Diary & Bookshelf) — một ứng dụng lưu bút ký cá nhân kết hợp kệ sách review tiện dụng, được thiết kế theo phong cách cắt dán cổ điển (vintage scrapbook) lấy cảm hứng từ thế giới Adventure Time.
 
 Ứng dụng hoạt động **100% cục bộ (local-first)** trên trình duyệt của bạn, đảm bảo tính riêng tư tuyệt đối cho mọi kỷ niệm và suy ngẫm của bạn.
 
